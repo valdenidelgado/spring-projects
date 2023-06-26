@@ -3,7 +3,8 @@ package com.course.dscatalog.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +15,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    private Date createdAt;
 
     public Category() {}
 
@@ -32,6 +35,14 @@ public class Category {
 
     public String getName() {
         return name;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setName(String name) {
