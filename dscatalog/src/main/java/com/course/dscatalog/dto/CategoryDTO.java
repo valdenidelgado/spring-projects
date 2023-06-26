@@ -11,15 +11,18 @@ public class CategoryDTO {
     private Long id;
     private String name;
 
-    private Date createdAt;
 
     public CategoryDTO() {
+    }
+
+    public CategoryDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public CategoryDTO(Category entity) {
         this.id = entity.getId();
         this.name = entity.getName();
-        this.createdAt = entity.getCreatedAt();
     }
 
     public Long getId() {
@@ -32,14 +35,6 @@ public class CategoryDTO {
 
     public String getName() {
         return name;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public void setName(String name) {
