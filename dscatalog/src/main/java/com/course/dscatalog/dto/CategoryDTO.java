@@ -3,10 +3,15 @@ package com.course.dscatalog.dto;
 
 import com.course.dscatalog.entities.Category;
 
+import java.io.Serializable;
+
 public class CategoryDTO {
 
     private Long id;
     private String name;
+
+    public CategoryDTO() {
+    }
 
     public CategoryDTO(Category entity) {
         this.id = entity.getId();
