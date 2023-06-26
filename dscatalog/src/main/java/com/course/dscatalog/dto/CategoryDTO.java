@@ -3,9 +3,6 @@ package com.course.dscatalog.dto;
 
 import com.course.dscatalog.entities.Category;
 
-import java.time.Instant;
-import java.util.Date;
-
 public class CategoryDTO {
 
     private Long id;
