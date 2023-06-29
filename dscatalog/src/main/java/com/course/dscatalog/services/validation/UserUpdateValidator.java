@@ -2,7 +2,6 @@ package com.course.dscatalog.services.validation;
 
 import com.course.dscatalog.dto.UserDTO;
 import com.course.dscatalog.entities.User;
-import com.course.dscatalog.entities.UserInsertDTO;
 import com.course.dscatalog.repositories.UserRepository;
 import com.course.dscatalog.resources.exceptions.FieldMessage;
 import jakarta.servlet.http.HttpServletRequest;

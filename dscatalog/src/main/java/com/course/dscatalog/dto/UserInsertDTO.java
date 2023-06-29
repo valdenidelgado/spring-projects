@@ -1,4 +1,4 @@
-package com.course.dscatalog.entities;
+package com.course.dscatalog.dto;
 
 import com.course.dscatalog.dto.UserDTO;
 import com.course.dscatalog.services.validation.UserInsertValid;

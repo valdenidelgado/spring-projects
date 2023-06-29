@@ -1,7 +1,7 @@
 package com.course.dscatalog.resources;
 
 import com.course.dscatalog.dto.UserDTO;
-import com.course.dscatalog.entities.UserInsertDTO;
+import com.course.dscatalog.dto.UserInsertDTO;
 import com.course.dscatalog.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

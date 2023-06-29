@@ -1,20 +1,23 @@
 package com.course.dscatalog.services;
 
-import com.course.dscatalog.dto.CategoryDTO;
 import com.course.dscatalog.dto.RoleDTO;
 import com.course.dscatalog.dto.UserDTO;
-import com.course.dscatalog.entities.Category;
+import com.course.dscatalog.dto.UserInsertDTO;
 import com.course.dscatalog.entities.Role;
 import com.course.dscatalog.entities.User;
-import com.course.dscatalog.entities.UserInsertDTO;
 import com.course.dscatalog.repositories.RoleRepository;
 import com.course.dscatalog.repositories.UserRepository;
 import com.course.dscatalog.services.exceptions.DatabaseException;
 import com.course.dscatalog.services.exceptions.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +27,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
+
+
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -96,5 +102,18 @@ public class UserService {
             Role role = roleRepository.getReferenceById(roleDTO.getId());
             entity.getRoles().add(role);
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = repository.findByEmail(username);
+
+        if (user == null) {
+            logger.error("User not found: " + username);
+            throw new UsernameNotFoundException("Email not found");
+        }
+        logger.info("User found: " + username);
+        return user;
     }
 }

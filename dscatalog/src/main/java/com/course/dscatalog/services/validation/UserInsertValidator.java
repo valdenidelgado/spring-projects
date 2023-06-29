@@ -1,14 +1,13 @@
 package com.course.dscatalog.services.validation;
 
 import com.course.dscatalog.entities.User;
-import com.course.dscatalog.entities.UserInsertDTO;
+import com.course.dscatalog.dto.UserInsertDTO;
 import com.course.dscatalog.repositories.UserRepository;
 import com.course.dscatalog.resources.exceptions.FieldMessage;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
