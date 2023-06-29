@@ -1,6 +1,8 @@
 package com.course.dslearn.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +24,9 @@ public class Section {
     @ManyToOne
     @JoinColumn(name = "prerequisite_id")
     private Section preRequisite;
+
+    @OneToMany(mappedBy = "section")
+    private List<Lesson> lessons = new ArrayList<>();
 
     public Section() {
     }
@@ -90,6 +95,10 @@ public class Section {
 
     public void setPreRequisite(Section preRequisite) {
         this.preRequisite = preRequisite;
+    }
+
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
     @Override
