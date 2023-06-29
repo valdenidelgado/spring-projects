@@ -21,14 +21,18 @@ public class Enrollment {
     private boolean available;
     private boolean onlyUpdate;
 
-
     @ManyToMany(mappedBy = "enrollmentsDone")
     private Set<Lesson> lessonsDone = new HashSet<>();
+
+    @OneToMany(mappedBy = "enrollment")
+    private List<Deliver> deliveries = new ArrayList<>();
 
     public Enrollment() {
     }
 
-    public Enrollment(User user, Offer offer, Instant enrollMoment, Instant refundMoment, boolean available, boolean onlyUpdate) {
+    public Enrollment(User user, Offer offer, Instant enrollMoment, Instant refundMoment, boolean available,
+                      boolean onlyUpdate) {
+        super();
         id.setUser(user);
         id.setOffer(offer);
         this.enrollMoment = enrollMoment;
@@ -83,6 +87,10 @@ public class Enrollment {
 
     public void setOnlyUpdate(boolean onlyUpdate) {
         this.onlyUpdate = onlyUpdate;
+    }
+
+    public List<Deliver> getDeliveries() {
+        return deliveries;
     }
 
     @Override

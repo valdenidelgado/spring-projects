@@ -1,9 +1,7 @@
 package com.course.dslearn.entities;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_lesson")
@@ -20,14 +18,24 @@ public abstract class Lesson {
     @JoinColumn(name = "section_id")
     private Section section;
 
+    @OneToMany(mappedBy = "lesson")
+    private List<Deliver> deliveries = new ArrayList<>();
+
     @ManyToMany
-    @JoinTable(name = "tb_lessons_done", joinColumns = @JoinColumn(name = "lesson_id"), inverseJoinColumns = {@JoinColumn(name = "user_id"), @JoinColumn(name = "offer_id")})
+    @JoinTable(name = "tb_lessons_done",
+            joinColumns = @JoinColumn(name = "lesson_id"),
+            inverseJoinColumns = {
+                    @JoinColumn(name = "user_id"),
+                    @JoinColumn(name = "offer_id")
+            }
+    )
     private Set<Enrollment> enrollmentsDone = new HashSet<>();
 
     public Lesson() {
     }
 
     public Lesson(Long id, String title, Integer position, Section section) {
+        super();
         this.id = id;
         this.title = title;
         this.position = position;
@@ -68,6 +76,10 @@ public abstract class Lesson {
 
     public Set<Enrollment> getEnrollmentsDone() {
         return enrollmentsDone;
+    }
+
+    public List<Deliver> getDeliveries() {
+        return deliveries;
     }
 
     @Override

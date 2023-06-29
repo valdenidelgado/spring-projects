@@ -14,8 +14,10 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String edition;
+
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant startMoment;
+
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant endMoment;
 
@@ -26,17 +28,20 @@ public class Offer {
     @OneToMany(mappedBy = "offer")
     private List<Resource> resources = new ArrayList<>();
 
+    @OneToMany(mappedBy = "offer")
+    private List<Topic> topics = new ArrayList<>();
+
     public Offer() {
     }
 
     public Offer(Long id, String edition, Instant startMoment, Instant endMoment, Course course) {
+        super();
         this.id = id;
         this.edition = edition;
         this.startMoment = startMoment;
         this.endMoment = endMoment;
         this.course = course;
     }
-
 
     public Long getId() {
         return id;
@@ -80,6 +85,10 @@ public class Offer {
 
     public List<Resource> getResources() {
         return resources;
+    }
+
+    public List<Topic> getTopics() {
+        return topics;
     }
 
     @Override
