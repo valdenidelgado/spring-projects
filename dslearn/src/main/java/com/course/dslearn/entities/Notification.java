@@ -13,6 +13,8 @@ public class Notification {
     private Long id;
 
     private String text;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
     private Boolean read = false;
     private String route;
