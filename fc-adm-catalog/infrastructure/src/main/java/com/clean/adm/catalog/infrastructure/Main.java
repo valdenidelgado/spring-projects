@@ -1,10 +1,13 @@
 package com.clean.adm.catalog.infrastructure;
 
-import com.clean.adm.catalog.application.UseCase;
+import com.clean.adm.catalog.infrastructure.configuration.WebServerConfig;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("Hello World!");
+        SpringApplication.run(WebServerConfig.class, args);
     }
 }
