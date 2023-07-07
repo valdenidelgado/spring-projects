@@ -1,6 +1,6 @@
-package com.clean.adm.catalog.domain.category;
+package com.clean.adm.catalog.domain.pagination;
 
-public record CategorySearchQuery(
+public record SearchQuery(
         int page,
         int perPage,
         String terms,

@@ -1,5 +1,6 @@
 package com.clean.adm.catalog.domain.category;
 
+import com.clean.adm.catalog.domain.pagination.SearchQuery;
 import com.clean.adm.catalog.domain.pagination.Pagination;
 
 import java.util.Optional;
@@ -10,5 +11,5 @@ public interface CategoryGateway {
     void deleteById(CategoryID anId);
     Optional<Category> findById(CategoryID anId);
     Category update(Category aCategory);
-    Pagination<Category> findAll(CategorySearchQuery aQuery);
+    Pagination<Category> findAll(SearchQuery aQuery);
 }

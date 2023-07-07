@@ -25,10 +25,10 @@ public class CreateCategoryUseCaseTest extends UseCaseTest {
     @Mock
     private CategoryGateway categoryGateway;
 
-//    @Override
-//    protected List<Object> getMocks() {
-//        return List.of(categoryGateway);
-//    }
+    @Override
+    protected List<Object> getMocks() {
+        return List.of(categoryGateway);
+    }
 
     // 1. Teste do caminho feliz
     // 2. Teste passando uma propriedade inválida (name)
