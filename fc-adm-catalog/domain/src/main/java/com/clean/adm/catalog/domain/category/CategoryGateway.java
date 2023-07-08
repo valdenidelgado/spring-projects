@@ -3,6 +3,7 @@ package com.clean.adm.catalog.domain.category;
 import com.clean.adm.catalog.domain.pagination.SearchQuery;
 import com.clean.adm.catalog.domain.pagination.Pagination;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoryGateway {
@@ -12,4 +13,6 @@ public interface CategoryGateway {
     Optional<Category> findById(CategoryID anId);
     Category update(Category aCategory);
     Pagination<Category> findAll(SearchQuery aQuery);
+
+    List<CategoryID> existsByIds(Iterable<CategoryID> categoryIDs);
 }

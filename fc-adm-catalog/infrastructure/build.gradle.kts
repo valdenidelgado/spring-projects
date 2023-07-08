@@ -37,13 +37,18 @@ dependencies {
 
     implementation("mysql:mysql-connector-java")
 
+    implementation("com.google.cloud:google-cloud-storage:2.17.1")
+    implementation("com.google.guava:guava:31.1-jre")
+
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(module = "spring-boot-starter-tomcat")
     }
 
     implementation("org.springframework.boot:spring-boot-starter-undertow")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("com.fasterxml.jackson.module:jackson-module-afterburner")
 
+    testImplementation("org.flywaydb:flyway-core")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     runtimeOnly("com.h2database:h2")
