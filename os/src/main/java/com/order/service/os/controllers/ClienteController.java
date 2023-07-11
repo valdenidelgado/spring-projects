@@ -1,7 +1,7 @@
 package com.order.service.os.controllers;
 
-import com.order.service.os.dtos.TecnicoDTO;
-import com.order.service.os.services.TecnicoService;
+import com.order.service.os.dtos.ClienteDTO;
+import com.order.service.os.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,26 +12,26 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/tecnicos")
-public class TecnicoController {
+@RequestMapping(value = "/clientes")
+public class ClienteController {
 
     @Autowired
-    private TecnicoService service;
+    private ClienteService service;
 
     @GetMapping
-    public ResponseEntity<List<TecnicoDTO>> findAll() {
-        List<TecnicoDTO> list = service.findAll();
+    public ResponseEntity<List<ClienteDTO>> findAll() {
+        List<ClienteDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id) {
-        TecnicoDTO obj = service.findById(id);
+    public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id) {
+        ClienteDTO obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping
-    public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO obj) {
+    public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteDTO obj) {
         obj = service.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
@@ -44,8 +44,8 @@ public class TecnicoController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @Valid @RequestBody TecnicoDTO obj) {
-        TecnicoDTO newObj = service.update(id, obj);
+    public ResponseEntity<ClienteDTO> update(@PathVariable Integer id, @Valid @RequestBody ClienteDTO obj) {
+        ClienteDTO newObj = service.update(id, obj);
         return ResponseEntity.ok().body(newObj);
     }
 }

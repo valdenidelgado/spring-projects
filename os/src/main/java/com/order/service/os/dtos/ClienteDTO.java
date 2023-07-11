@@ -1,11 +1,11 @@
 package com.order.service.os.dtos;
 
-import com.order.service.os.domain.Tecnico;
+import com.order.service.os.domain.Cliente;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotEmpty;
 
-public class TecnicoDTO {
+public class ClienteDTO {
 
     private Integer id;
     @NotEmpty(message = "O campo NOME é requerido")
@@ -17,10 +17,10 @@ public class TecnicoDTO {
     @NotEmpty(message = "O campo TELEFONE é requerido")
     private String telefone;
 
-    public TecnicoDTO() {
+    public ClienteDTO() {
     }
 
-    public TecnicoDTO(Tecnico obj) {
+    public ClienteDTO(Cliente obj) {
         this.id = obj.getId();
         this.nome = obj.getNome();
         this.cpf = obj.getCpf();

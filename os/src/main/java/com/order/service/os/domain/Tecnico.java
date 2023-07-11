@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Tecnico  extends Pessoa {
+public class Tecnico extends Pessoa {
 
     @JsonIgnore
     @OneToMany(mappedBy = "tecnico")
