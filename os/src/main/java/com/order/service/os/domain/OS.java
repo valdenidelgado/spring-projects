@@ -3,6 +3,7 @@ package com.order.service.os.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.order.service.os.domain.enums.Prioridade;
 import com.order.service.os.domain.enums.Status;
+import com.order.service.os.dtos.OSDTO;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -47,6 +48,7 @@ public class OS {
         this.tecnico = tecnico;
         this.cliente = cliente;
     }
+
 
     public Integer getId() {
         return id;
