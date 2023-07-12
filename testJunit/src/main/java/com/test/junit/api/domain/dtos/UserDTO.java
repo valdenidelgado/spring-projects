@@ -1,4 +1,4 @@
-package com.test.junit.api.dtos;
+package com.test.junit.api.domain.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
