@@ -1,6 +1,7 @@
 package com.test.junit.api.controller;
 
 import com.test.junit.api.domain.User;
+import com.test.junit.api.domain.dtos.UserDTO;
 import com.test.junit.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Integer id) {
-        User user = userService.findById(id);
-        return ResponseEntity.ok().body(user);
+    public ResponseEntity<UserDTO> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(userService.findById(id));
     }
 
 }
