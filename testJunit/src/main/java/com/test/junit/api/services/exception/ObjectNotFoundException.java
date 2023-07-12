@@ -1,4 +1,4 @@
-package com.test.junit.api.services;
+package com.test.junit.api.services.exception;
 
 public class ObjectNotFoundException extends RuntimeException {
 

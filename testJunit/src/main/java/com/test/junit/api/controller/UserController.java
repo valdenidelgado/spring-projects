@@ -1,6 +1,5 @@
 package com.test.junit.api.controller;
 
-import com.test.junit.api.domain.User;
 import com.test.junit.api.domain.dtos.UserDTO;
 import com.test.junit.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,12 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
+    public static final String ID = "/{id}";
+
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = ID)
     public ResponseEntity<UserDTO> findById(@PathVariable Integer id) {
         return ResponseEntity.ok().body(userService.findById(id));
     }
@@ -32,9 +33,21 @@ public class UserController {
     public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO) {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{id}")
+                .path(ID)
                 .buildAndExpand(userService.create(userDTO).getId())
                 .toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping(value = ID)
+    public ResponseEntity<UserDTO> update(@PathVariable Integer id, @RequestBody UserDTO userDTO) {
+        userDTO.setId(id);
+        return ResponseEntity.ok().body(userService.update(userDTO));
+    }
+
+    @DeleteMapping(value = ID)
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
