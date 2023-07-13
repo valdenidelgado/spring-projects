@@ -18,6 +18,9 @@ public class StringProducerFactoryConfig {
 
     private final KafkaProperties properties;
 
+
+    // Para serialização
+
     @Bean
     public ProducerFactory<String, String> producerFactory() {
         var configs = new HashMap<String, Object>();
