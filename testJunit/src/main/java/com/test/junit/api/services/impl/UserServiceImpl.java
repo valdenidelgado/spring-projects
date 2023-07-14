@@ -28,14 +28,17 @@ public class UserServiceImpl implements UserService {
     private ModelMapper mapper;
 
     @Override
-    public UserDTO findById(Integer id) {
+    public User findById(Integer id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("User not found"));
-        return mapper.map(user, UserDTO.class);
+        return user;
     }
 
     @Override
     public List<UserDTO> findAll() {
-        return userRepository.findAll().stream().map(user -> mapper.map(user, UserDTO.class)).collect(Collectors.toList());
+        return userRepository.findAll()
+                .stream()
+                .map(user -> mapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -61,8 +64,7 @@ public class UserServiceImpl implements UserService {
     private void findByEmail(UserDTO obj) {
         Optional<User> user = userRepository.findByEmail(obj.getEmail());
         if (user.isPresent() && !user.get().getId().equals(obj.getId())) {
-            throw new DataIntegratyViolationException("Email already exists") {
-            };
+            throw new DataIntegratyViolationException("Email already exists");
         }
     }
 }
