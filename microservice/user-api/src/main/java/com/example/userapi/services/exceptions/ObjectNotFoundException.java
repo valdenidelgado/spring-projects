@@ -1,4 +1,4 @@
-package com.example.userapi.services;
+package com.example.userapi.services.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException {
 
