@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "user-api", url = "http://localhost:8000/users")
+@FeignClient(name = "user-api") // se tiver no eureka, não precisa do url e faz o balanceamento de carga
 public interface UserFeign {
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/users/{id}")
     ResponseEntity<User> findById(@PathVariable Long id);
 
     @GetMapping
