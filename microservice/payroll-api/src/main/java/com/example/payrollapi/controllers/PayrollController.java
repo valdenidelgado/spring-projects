@@ -1,8 +1,6 @@
 package com.example.payrollapi.controllers;
 
 import com.example.payrollapi.domain.Payroll;
-import com.example.payrollapi.domain.User;
-import com.example.payrollapi.feignClients.UserFeign;
 import com.example.payrollapi.services.PayrollService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
