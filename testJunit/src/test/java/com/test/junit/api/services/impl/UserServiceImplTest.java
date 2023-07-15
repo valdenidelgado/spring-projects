@@ -5,12 +5,10 @@ import com.test.junit.api.domain.dtos.UserDTO;
 import com.test.junit.api.repositories.UserRepository;
 import com.test.junit.api.services.exception.DataIntegratyViolationException;
 import com.test.junit.api.services.exception.ObjectNotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -63,7 +61,7 @@ class UserServiceImplTest {
     @Test
     void whenFindByIdThenThrowAnObjectNotFoundException() {
         when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException("User not found"));
-        try{
+        try {
             userService.findById(ID);
         } catch (Exception e) {
             assertEquals(ObjectNotFoundException.class, e.getClass());

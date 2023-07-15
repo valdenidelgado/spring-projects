@@ -6,21 +6,26 @@ import com.test.junit.api.repositories.UserRepository;
 import com.test.junit.api.services.UserService;
 import com.test.junit.api.services.exception.DataIntegratyViolationException;
 import com.test.junit.api.services.exception.ObjectNotFoundException;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    private final ModelMapper mapper;
+    @Autowired
+    private ModelMapper mapper;
 
     @Override
     public User findById(Integer id) {
