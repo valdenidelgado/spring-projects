@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     @GetMapping("/auth")
@@ -16,5 +16,10 @@ public class AuthController {
     @GetMapping("/free")
     public String free() {
         return "Free";
+    }
+
+    @GetMapping
+    public String home() {
+        return "Home";
     }
 }
