@@ -4,11 +4,12 @@ import com.example.tddcleansolid.modules.courses.entity.Course;
 import com.example.tddcleansolid.modules.courses.repositories.ICourseRepository;
 import org.springframework.stereotype.Service;
 
-public class CreateCourseService {
+@Service
+public class CreateCourseService2 {
 
     private final ICourseRepository repository;
 
-    public CreateCourseService(ICourseRepository repository) {
+    public CreateCourseService2(ICourseRepository repository) {
         this.repository = repository;
     }
 
