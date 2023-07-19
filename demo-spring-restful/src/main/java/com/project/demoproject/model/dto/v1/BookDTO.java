@@ -4,14 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.hateoas.RepresentationModel;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @JsonPropertyOrder({"id", "author", "launchDate", "price", "title"})
-public class BookDTO extends RepresentationModel<BookDTO> implements Serializable {
-    public static final long serialVersionUID = 1L;
-
+public class BookDTO extends RepresentationModel<BookDTO> {
     @JsonProperty("id")
     private Long key;
     private String author;
