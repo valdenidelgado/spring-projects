@@ -25,6 +25,8 @@ public interface MapperStruct {
     @InheritInverseConfiguration
     Person toPerson(PersonDTO personDTO);
 
+    List<Person> toPersons(List<PersonDTO> personDTO);
+
     @Mapping(target = "key", source = "id")
     BookDTO toBookDTO(Book book);
 
