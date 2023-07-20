@@ -13,9 +13,9 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Demo Restful API with spring boot 3")
+                        .title("Demo Restful API with spring boot 3.0.1")
                         .version("v1")
-                        .description("Restful API with Java 17 and Spring Boot 3")
+                        .description("Restful API with Java 17 and Spring Boot 3.0.1")
                         .termsOfService("https://github.com/valdenidelgado")
                         .license(new License().name("Apache 2.0").url("https://github.com/valdenidelgado")));
     }

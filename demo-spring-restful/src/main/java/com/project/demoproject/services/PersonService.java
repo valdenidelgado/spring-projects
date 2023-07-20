@@ -1,6 +1,7 @@
 package com.project.demoproject.services;
 
 import com.project.demoproject.controllers.PersonController;
+import com.project.demoproject.exceptions.RequiredObjectIsNullException;
 import com.project.demoproject.exceptions.ResourceNotFoundException;
 import com.project.demoproject.mapper.MapperStruct;
 import com.project.demoproject.model.Person;
@@ -37,6 +38,7 @@ public class PersonService {
     }
 
     public PersonDTO create(PersonDTO personDTO) {
+        if (personDTO == null) throw new RequiredObjectIsNullException();
         logger.info("Creating a new person");
         Person save =  repository.save(MapperStruct.INSTANCE.toPerson(personDTO));
         PersonDTO dto = MapperStruct.INSTANCE.toPersonDTO(save);
@@ -45,6 +47,7 @@ public class PersonService {
     }
 
     public PersonDTO update(PersonDTO personDTO) {
+        if (personDTO == null) throw new RequiredObjectIsNullException();
         logger.info("Update person and return DTO");
         Person entity = repository.findById(personDTO.getKey()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
         entity.setFirstName(personDTO.getFirstName());
