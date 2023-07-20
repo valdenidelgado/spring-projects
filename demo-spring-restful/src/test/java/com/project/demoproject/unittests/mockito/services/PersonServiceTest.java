@@ -41,10 +41,10 @@ class PersonServiceTest {
 
     @Test
     void findById() {
-        Person person = input.mockEntity(1);
-        person.setId(1L);
+        Person entity = input.mockEntity(1);
+        entity.setId(1L);
 
-        Mockito.when(repository.findById(1L)).thenReturn(Optional.of(person));
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.of(entity));
 
         var result = service.findById(1L);
         assertNotNull(result);
