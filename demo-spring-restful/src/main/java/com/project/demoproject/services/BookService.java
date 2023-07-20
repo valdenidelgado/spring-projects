@@ -1,6 +1,7 @@
 package com.project.demoproject.services;
 
 import com.project.demoproject.controllers.BookController;
+import com.project.demoproject.exceptions.RequiredObjectIsNullException;
 import com.project.demoproject.exceptions.ResourceNotFoundException;
 import com.project.demoproject.mapper.MapperStruct;
 import com.project.demoproject.model.Book;
@@ -38,6 +39,7 @@ public class BookService {
     }
 
     public BookDTO create(BookDTO bookDTO) {
+        if (bookDTO == null) throw new RequiredObjectIsNullException();
         logger.info("Creating a new Book");
         Book save =  repository.save(MapperStruct.INSTANCE.toBook(bookDTO));
         BookDTO dto = MapperStruct.INSTANCE.toBookDTO(save);
@@ -46,6 +48,7 @@ public class BookService {
     }
 
     public BookDTO update(BookDTO bookDTO) {
+        if (bookDTO == null) throw new RequiredObjectIsNullException();
         logger.info("Update Book and return DTO");
         Book entity = repository.findById(bookDTO.getKey()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
         entity.setAuthor(bookDTO.getAuthor());

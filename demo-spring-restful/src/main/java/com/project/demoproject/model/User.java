@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,8 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails, Serializable {
-    private static final long serialVersionUID = 1L;
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +32,7 @@ public class User implements UserDetails, Serializable {
     private Boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_permission", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "id_permission")})
+    @JoinTable(name = "users_permission", joinColumns = {@JoinColumn(name = "id_user")}, inverseJoinColumns = {@JoinColumn(name = "id_permission")})
     private List<Permission> permissions;
 
     public User() {}

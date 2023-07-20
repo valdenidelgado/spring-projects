@@ -3,13 +3,11 @@ package com.project.demoproject.model;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "permission")
-public class Permission implements GrantedAuthority, Serializable {
-    private static final long serialVersionUID = 1L;
+public class Permission implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
