@@ -7,21 +7,25 @@ import com.project.demoproject.mapper.MapperStruct;
 import com.project.demoproject.model.Person;
 import com.project.demoproject.model.dto.v1.PersonDTO;
 import com.project.demoproject.repositories.PersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Logger;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class PersonService {
 
-    @Autowired
-    private PersonRepository repository;
+    private final PersonRepository repository;
 
-    private final Logger logger = Logger.getLogger(PersonService.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(PersonService.class);
+
+    public PersonService(PersonRepository repository) {
+        this.repository = repository;
+    }
 
     public List<PersonDTO> findAll() {
         logger.info("Find all persons");

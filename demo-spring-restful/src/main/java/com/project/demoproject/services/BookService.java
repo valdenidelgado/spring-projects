@@ -7,11 +7,11 @@ import com.project.demoproject.mapper.MapperStruct;
 import com.project.demoproject.model.Book;
 import com.project.demoproject.model.dto.v1.BookDTO;
 import com.project.demoproject.repositories.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -19,10 +19,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 public class BookService {
 
-    @Autowired
-    private BookRepository repository;
+    private final BookRepository repository;
 
-    private final Logger logger = Logger.getLogger(BookService.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(BookService.class);
+
+    public BookService(BookRepository repository) {
+        this.repository = repository;
+    }
 
     public List<BookDTO> findAll() {
         logger.info("Find all Books");
