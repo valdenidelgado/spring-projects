@@ -37,7 +37,7 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public List<String> roles() {
+    public List<String> getRoles() {
         List<String> roles = new ArrayList<>();
         for (Permission permission : permissions) {
             roles.add(permission.getDescription());
@@ -144,9 +144,6 @@ public class User implements UserDetails {
         return permissions;
     }
 
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
-    }
 
     @Override
     public boolean equals(Object o) {
