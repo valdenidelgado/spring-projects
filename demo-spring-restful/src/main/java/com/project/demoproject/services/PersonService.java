@@ -10,6 +10,7 @@ import com.project.demoproject.repositories.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class PersonService {
     }
 
     public PersonDTO findById(Long id) {
-        logger.info("Findind one person");
+        logger.info("Finding one person");
         PersonDTO dto = MapperStruct.INSTANCE.toPersonDTO(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID")));
         dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
         return dto;
@@ -67,5 +68,14 @@ public class PersonService {
         logger.info("Delete person");
         Person entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
         repository.delete(entity);
+    }
+
+    @Transactional
+    public PersonDTO disablePerson(Long id) {
+        logger.info("Disabling one person");
+        repository.disablePerson(id);
+        PersonDTO dto = MapperStruct.INSTANCE.toPersonDTO(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID")));
+        dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+        return dto;
     }
 }

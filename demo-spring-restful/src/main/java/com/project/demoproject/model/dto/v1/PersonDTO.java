@@ -22,6 +22,8 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
     // @JsonIgnore // this annotation is used to ignore the field in the json
     private String gender;
 
+    private Boolean enabled;
+
     public PersonDTO() {}
 
     public Long getKey() {
@@ -58,6 +60,14 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 
     public String getGender() {
         return gender;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public void setGender(String gender) {
