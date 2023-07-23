@@ -6,9 +6,17 @@ import com.project.demoproject.exceptions.ResourceNotFoundException;
 import com.project.demoproject.mapper.MapperStruct;
 import com.project.demoproject.model.Book;
 import com.project.demoproject.model.dto.v1.BookDTO;
+import com.project.demoproject.model.dto.v1.PersonDTO;
 import com.project.demoproject.repositories.BookRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,17 +29,22 @@ public class BookService {
 
     private final BookRepository repository;
 
+    @Autowired
+    PagedResourcesAssembler<BookDTO> assembler;
+
     private final Logger logger = LoggerFactory.getLogger(BookService.class);
 
     public BookService(BookRepository repository) {
         this.repository = repository;
     }
 
-    public List<BookDTO> findAll() {
+    public PagedModel<EntityModel<BookDTO>> findAll(Pageable pageable) {
         logger.info("Find all Books");
-        List<BookDTO> dtos = MapperStruct.INSTANCE.toBookDTOs(repository.findAll());
-        dtos.forEach(dto -> dto.add(linkTo(methodOn(BookController.class).findById(dto.getKey())).withSelfRel()));
-        return dtos;
+        var bookPage = repository.findAll(pageable);
+        Page<BookDTO> dtoPage = bookPage.map(MapperStruct.INSTANCE::toBookDTO);
+        dtoPage.map(dto -> dto.add(linkTo(methodOn(BookController.class).findById(dto.getKey())).withSelfRel()));
+        Link link = linkTo(methodOn(BookController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
+        return assembler.toModel(dtoPage, link);
     }
 
     public BookDTO findById(Long id) {

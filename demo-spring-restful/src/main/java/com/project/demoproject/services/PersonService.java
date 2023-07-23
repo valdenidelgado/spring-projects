@@ -9,10 +9,15 @@ import com.project.demoproject.model.dto.v1.PersonDTO;
 import com.project.demoproject.repositories.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -22,22 +27,38 @@ public class PersonService {
 
     private final PersonRepository repository;
 
+    @Autowired
+    PagedResourcesAssembler<PersonDTO> assembler;
+
     private final Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     public PersonService(PersonRepository repository) {
         this.repository = repository;
     }
 
-    public List<PersonDTO> findAll() {
+    public PagedModel<EntityModel<PersonDTO>> findAll(Pageable pageable) {
         logger.info("Find all persons");
-        List<PersonDTO> dtos = MapperStruct.INSTANCE.toPersonDTOs(repository.findAll());
-        dtos.forEach(dto -> dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel()));
-        return dtos;
+        var personPage = repository.findAll(pageable);
+        Page<PersonDTO> dtoPage = personPage.map(MapperStruct.INSTANCE::toPersonDTO);
+        dtoPage.map(dto -> dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel()));
+        Link link = linkTo(methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
+        return assembler.toModel(dtoPage, link);
+    }
+
+    public PagedModel<EntityModel<PersonDTO>> findPersonsByName(String firstName, Pageable pageable) {
+        logger.info("Find all persons");
+        var personPage = repository.findPersonsByName(firstName, pageable);
+        Page<PersonDTO> dtoPage = personPage.map(MapperStruct.INSTANCE::toPersonDTO);
+        dtoPage.map(dto -> dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel()));
+        Link link = linkTo(methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
+        return assembler.toModel(dtoPage, link);
     }
 
     public PersonDTO findById(Long id) {
         logger.info("Finding one person");
-        PersonDTO dto = MapperStruct.INSTANCE.toPersonDTO(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID")));
+        PersonDTO dto = MapperStruct.INSTANCE.toPersonDTO(repository.findById(id)
+                                                                  .orElseThrow(() -> new ResourceNotFoundException(
+                                                                          "No records found for this ID")));
         dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
         return dto;
     }
@@ -45,7 +66,7 @@ public class PersonService {
     public PersonDTO create(PersonDTO personDTO) {
         if (personDTO == null) throw new RequiredObjectIsNullException();
         logger.info("Creating a new person");
-        Person save =  repository.save(MapperStruct.INSTANCE.toPerson(personDTO));
+        Person save = repository.save(MapperStruct.INSTANCE.toPerson(personDTO));
         PersonDTO dto = MapperStruct.INSTANCE.toPersonDTO(save);
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel());
         return dto;
@@ -54,7 +75,8 @@ public class PersonService {
     public PersonDTO update(PersonDTO personDTO) {
         if (personDTO == null) throw new RequiredObjectIsNullException();
         logger.info("Update person and return DTO");
-        Person entity = repository.findById(personDTO.getKey()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+        Person entity = repository.findById(personDTO.getKey())
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
         entity.setFirstName(personDTO.getFirstName());
         entity.setLastName(personDTO.getLastName());
         entity.setAddress(personDTO.getAddress());
@@ -66,7 +88,8 @@ public class PersonService {
 
     public void delete(Long id) {
         logger.info("Delete person");
-        Person entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+        Person entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
         repository.delete(entity);
     }
 
@@ -74,7 +97,9 @@ public class PersonService {
     public PersonDTO disablePerson(Long id) {
         logger.info("Disabling one person");
         repository.disablePerson(id);
-        PersonDTO dto = MapperStruct.INSTANCE.toPersonDTO(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID")));
+        PersonDTO dto = MapperStruct.INSTANCE.toPersonDTO(repository.findById(id)
+                                                                  .orElseThrow(() -> new ResourceNotFoundException(
+                                                                          "No records found for this ID")));
         dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
         return dto;
     }
