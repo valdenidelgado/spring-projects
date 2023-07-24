@@ -8,3 +8,26 @@ services:
       - MYSQL_ROOT_PASSWORD=123456
     ports:
       - '3306:3306'
+    networks:
+      - app-network
+
+  app:
+    build: .
+    restart: always
+    working_dir: /app
+    environment:
+      SPRING.DATASOURCE.URL: jdbc:mysql://db:3306/testdb?useSSL=false&serverTimezone=UTC
+      SPRING.DATASOURCE.USERNAME: root
+      SPRING.DATASOURCE.PASSWORD: 123456
+    ports:
+      - '80:80'
+    command: mvn spring-boot:run
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/file/v1")
 public class FileController {
 
-    private Logger logger = LoggerFactory.getLogger(FileController.class);
+    private final Logger logger = LoggerFactory.getLogger(FileController.class);
 
     @Autowired
     private FileStorageService service;
