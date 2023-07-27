@@ -39,6 +39,10 @@ public class PersonService {
     public PagedModel<EntityModel<PersonDTO>> findAll(Pageable pageable) {
         logger.info("Find all persons");
         var personPage = repository.findAll(pageable);
+        return getEntityModels(pageable, personPage);
+    }
+
+    private PagedModel<EntityModel<PersonDTO>> getEntityModels(Pageable pageable, Page<Person> personPage) {
         Page<PersonDTO> dtoPage = personPage.map(MapperStruct.INSTANCE::toPersonDTO);
         dtoPage.map(dto -> dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel()));
         Link link = linkTo(methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
@@ -48,10 +52,7 @@ public class PersonService {
     public PagedModel<EntityModel<PersonDTO>> findPersonsByName(String firstName, Pageable pageable) {
         logger.info("Find all persons");
         var personPage = repository.findPersonsByName(firstName, pageable);
-        Page<PersonDTO> dtoPage = personPage.map(MapperStruct.INSTANCE::toPersonDTO);
-        dtoPage.map(dto -> dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel()));
-        Link link = linkTo(methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
-        return assembler.toModel(dtoPage, link);
+        return getEntityModels(pageable, personPage);
     }
 
     public PersonDTO findById(Long id) {

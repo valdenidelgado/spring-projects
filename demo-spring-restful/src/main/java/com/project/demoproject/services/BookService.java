@@ -48,7 +48,7 @@ public class BookService {
     }
 
     public BookDTO findById(Long id) {
-        logger.info("Findind one Book");
+        logger.info("Finding one Book");
         BookDTO dto = MapperStruct.INSTANCE.toBookDTO(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID")));
         dto.add(linkTo(methodOn(BookController.class).findById(id)).withSelfRel());
         return dto;
