@@ -2,6 +2,7 @@ import {Background, Container, Form} from "./styles.js";
 import {Input} from "../../components/Input/index.jsx";
 import {FiMail, FiLock} from "react-icons/fi";
 import Button from "../../components/Button/index.jsx";
+import {Link} from "react-router-dom";
 
 export function SignIn() {
   return (
@@ -15,7 +16,9 @@ export function SignIn() {
         <Input type="password" placeholder="Senha" icon={FiLock}/>
         <Button title="Entrar" />
 
-        <a href="#">Criar conta</a>
+        <Link to="/register">
+          Criar conta
+        </Link>
       </Form>
       <Background />
     </Container>
