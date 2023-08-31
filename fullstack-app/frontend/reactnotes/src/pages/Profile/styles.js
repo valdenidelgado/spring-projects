@@ -57,6 +57,8 @@ export const Avatar = styled.div`
     bottom: 7px;
     right: 7px;
     
+    border-radius: 50%;
+    
     cursor: pointer;
     
     input {
