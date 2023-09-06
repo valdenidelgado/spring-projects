@@ -7,12 +7,23 @@ import {Section} from "../../components/Section/index.jsx";
 import {Note} from "../../components/Note/index.jsx";
 import {useEffect, useState} from "react";
 import {api} from "../../services/api";
+import {useNavigate} from "react-router-dom";
 
 export function Home() {
   const [tags, setTags] = useState([])
   const [tagSelected, setTagSelected] = useState([])
+  const [search, setSearch] = useState('')
+  const [notes, setNotes] = useState([])
+
+  const navigate = useNavigate()
 
   function handleTagSelected(tagName) {
+
+    if (tagName === "all") {
+      setTagSelected([])
+      return
+    }
+
     const alreadySelected = tagSelected.includes(tagName)
 
     if (alreadySelected) {
@@ -21,6 +32,10 @@ export function Home() {
     } else {
       setTagSelected(prevState => [...prevState, tagName])
     }
+  }
+
+  function handleDetails(id) {
+    navigate(`/details/${id}`)
   }
 
   useEffect(() => {
@@ -32,6 +47,15 @@ export function Home() {
 
     fetchTags();
   }, []);
+
+  useEffect(() => {
+    async function fetchNotes() {
+      const response = await api.get(`/notes?title=${search}&tags=${tagSelected}`);
+      setNotes(response.data);
+    }
+
+    fetchNotes();
+  }, [tagSelected, search]);
 
   return (
     <Container>
@@ -52,17 +76,15 @@ export function Home() {
         }
       </Menu>
       <Search>
-        <Input placeholder="Pesquisar pelo título." icon={FiSearch}/>
+        <Input placeholder="Pesquisar pelo título." icon={FiSearch} onChange={e => setSearch(e.target.value)}/>
       </Search>
       <Content>
         <Section title="Minhas Notas">
-          <Note data={{
-            title: 'React',
-            tags: [
-              {id: 1, name: 'React'},
-              {id: 2, name: 'Node'},
-            ]
-          }}/>
+          {
+            notes.map(note => (
+              <Note key={String(note.id)} data={note} onClick={() => handleDetails(note.id)} />
+            ))
+          }
         </Section>
       </Content>
       <NewNote to="/new">
