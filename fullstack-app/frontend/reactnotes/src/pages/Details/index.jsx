@@ -4,40 +4,80 @@ import {Section} from "../../components/Section";
 import {Container, Content, Links} from "./styles";
 import {Tag} from "../../components/Tag/index.jsx";
 import {ButtonText} from "../../components/ButtonText/index.jsx";
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {api} from "../../services/api";
 
 export function Details() {
+  const [data, setData] = useState(null)
+  const params = useParams()
+  const navigate = useNavigate()
+
+  function handleBack() {
+    navigate('/')
+  }
+
+  async function handleRemove() {
+    const confirm = window.confirm('Deseja realmente excluir esta nota?')
+    if (confirm) {
+      await api.delete(`/notes/${params.id}`)
+      navigate('/')
+    }
+  }
+
+  useEffect(() => {
+    async function fetchNote() {
+      const response = await api.get(`/notes/${params.id}`)
+      setData(response.data)
+    }
+
+    fetchNote()
+  }, []);
+
+
   return (
     <Container>
       <Header/>
+      {
+        data &&
+        <main>
+          <Content>
+            <ButtonText title="Excluir nota" onClick={handleRemove} />
+            <h1>
+              {data.title}
+            </h1>
+            <p>
+              {data.description}
+            </p>
 
-      <main>
-        <Content>
-          <ButtonText title="Excluir nota"/>
-          <h1>
-            Introdução ao React
-          </h1>
-          <p>
-            O Fabuloso Gerador de Lero-lero v2.0 é capaz de gerar qualquer quantidade de texto vazio e prolixo,
-            ideal para engrossar uma tese de mestrado, impressionar seu chefe ou preparar discursos capazes de curar
-            a insônia da platéia. Basta informar um título pomposo qualquer (nos moldes do que está sugerido aí embaixo)
-            e a quantidade de frases desejada. Voilá! Em dois nano-segundos você terá um texto - ou mesmo um livro
-            inteiro - pronto para impressão. Ou, se preferir, faça copy/paste para um editor de texto para formatá-lo
-            mais sofisticadamente. Lembre-se: aparência é tudo, conteúdo é nada.
-          </p>
+            {
+              data.links &&
+              <Section title="Links úteis">
+                <Links>
+                  {
+                    data.links.map((link) => (
+                      <li key={String(link.id)}><a href={link.url} target='_blank'>link.url</a></li>
+                    ))
+                  }
+                </Links>
+              </Section>
+            }
 
-          <Section title="Links úteis">
-            <Links>
-              <li><a href="#">https://www.github.com</a></li>
-              <li><a href="#">https://www.github.com</a></li>
-            </Links>
-          </Section>
-          <Section title="Marcadores">
-            <Tag title="express"/>
-            <Tag title="nodejs"/>
-          </Section>
-          <Button title="Voltar"/>
-        </Content>
-      </main>
+            {
+              data.tags &&
+              <Section title="Marcadores">
+                {
+                  data.tags.map((tag) => (
+                    <Tag key={String(tag.id)} title={tag.name}/>
+                  ))
+                }
+              </Section>
+            }
+
+            <Button title="Voltar" onClick={handleBack} />
+          </Content>
+        </main>
+      }
     </Container>
   );
 }
