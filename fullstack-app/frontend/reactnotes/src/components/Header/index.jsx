@@ -22,7 +22,7 @@ export function Header() {
         <img src={avatarUrl} alt="Foto do usuário"/>
         <div>
           <span>Bem-vindo,</span>
-          <strong>Valdeni Delgado</strong>
+          <strong>{user.name}</strong>
         </div>
       </Profile>
 
