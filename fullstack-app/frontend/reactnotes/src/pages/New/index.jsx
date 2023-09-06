@@ -5,9 +5,10 @@ import {Textarea} from "../../components/Textarea/index.jsx";
 import {Section} from "../../components/Section/index.jsx";
 import {NoteItem} from "../../components/NoteItem/index.jsx";
 import Button from "../../components/Button/index.jsx";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {api} from "../../services/api.js";
+import {ButtonText} from "../../components/ButtonText/index.jsx";
 
 export function New() {
   const [title, setTitle] = useState('')
@@ -20,6 +21,10 @@ export function New() {
   const [newTag, setNewTag] = useState('')
 
   const navigate = useNavigate()
+
+  function handleBack() {
+    navigate(-1)
+  }
 
   function handleAddLink() {
     setLinks(prev => [...prev, newLink])
@@ -59,7 +64,7 @@ export function New() {
     })
 
     alert('Nota criada com sucesso!')
-    navigate('/')
+    navigate(-1)
   }
 
   return (
@@ -69,7 +74,7 @@ export function New() {
         <Form>
           <header>
             <h1>Criar nota</h1>
-            <Link to="/">voltar</Link>
+            <ButtonText title="Voltar" onClick={handleBack} />
           </header>
 
           <Input placeholder="Título" onChange={e => setTitle(e.target.value)}/>
