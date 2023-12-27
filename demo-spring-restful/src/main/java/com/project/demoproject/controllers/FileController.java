@@ -26,8 +26,11 @@ public class FileController {
 
     private final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    @Autowired
-    private FileStorageService service;
+    private final FileStorageService service;
+
+    public FileController(FileStorageService service) {
+        this.service = service;
+    }
 
     @PostMapping("/uploadFile")
     public UploadFileResponseDTO uploadFile(@RequestParam("file") MultipartFile file) {

@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.exercice.cruduser.dto.UserDTO;
+import com.exercice.cruduser.entities.User;
 import com.exercice.cruduser.services.UserService;
+import com.exercice.cruduser.repositories.UserRepository;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -29,10 +31,19 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private UserRepository repository;
+
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAll() {
         List<UserDTO> users = service.findAll();
         return ResponseEntity.ok().body(users);
+    }
+
+    @GetMapping(value = "/find2")
+    public List<User> findAll2() {
+      List<User> user = repository.findAll();
+      return user;
     }
 
     @GetMapping(value = "/{id}")
