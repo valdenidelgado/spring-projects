@@ -18,6 +18,12 @@ public class SecurityConfig {
 
     private final SecurityCandidateFilter candidateFilter;
 
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**"
+    };
+
     public SecurityConfig(SecurityFilter filter, SecurityCandidateFilter candidateFilter) {
         this.filter = filter;
         this.candidateFilter = candidateFilter;
@@ -30,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/company/**").permitAll()
                         .requestMatchers("/company/auth/**").permitAll()
                         .requestMatchers("/candidate/auth/**").permitAll()
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(this.candidateFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(this.filter, BasicAuthenticationFilter.class);
