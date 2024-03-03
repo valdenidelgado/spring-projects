@@ -1,7 +1,9 @@
 package com.rocket.course.gestao_vagas.modules.candidate.controllers;
 
 import com.rocket.course.gestao_vagas.modules.candidate.dto.ProfileResponse;
+import com.rocket.course.gestao_vagas.modules.candidate.entities.ApplyJobEntity;
 import com.rocket.course.gestao_vagas.modules.candidate.entities.CandidateEntity;
+import com.rocket.course.gestao_vagas.modules.candidate.useCases.ApplyJobCandidateUseCase;
 import com.rocket.course.gestao_vagas.modules.candidate.useCases.CreateCandidateUseCase;
 import com.rocket.course.gestao_vagas.modules.candidate.useCases.ListAllJobsByFilterUseCase;
 import com.rocket.course.gestao_vagas.modules.candidate.useCases.ProfileUseCase;
@@ -16,6 +18,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +33,15 @@ public class CandidateController {
 
     private final CreateCandidateUseCase useCase;
     private final ProfileUseCase profileUseCase;
-
     private final ListAllJobsByFilterUseCase listJobs;
 
-    public CandidateController(CreateCandidateUseCase useCase, ProfileUseCase profileUseCase, ListAllJobsByFilterUseCase listJobs) {
+    private final ApplyJobCandidateUseCase applyJobCandidateUseCase;
+
+    public CandidateController(CreateCandidateUseCase useCase, ProfileUseCase profileUseCase, ListAllJobsByFilterUseCase listJobs, ApplyJobCandidateUseCase applyJobCandidateUseCase) {
         this.useCase = useCase;
         this.profileUseCase = profileUseCase;
         this.listJobs = listJobs;
+        this.applyJobCandidateUseCase = applyJobCandidateUseCase;
     }
 
     @GetMapping
@@ -91,6 +96,19 @@ public class CandidateController {
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(List.of());
+        }
+    }
+
+    @PostMapping("/job/apply")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<Object> applyJob(HttpServletRequest request, @RequestBody UUID jobId) {
+        var candidateId = request.getAttribute("candidate_id");
+        try {
+            var result = this.applyJobCandidateUseCase.execute(UUID.fromString(candidateId.toString()), jobId);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
